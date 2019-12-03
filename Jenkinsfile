@@ -2,7 +2,7 @@ node {
 	stage ('Checkout'){
 		checkout scm
 		echo "code is checked out"
-mvn package
+bat 'mvn package'
 echo "##############################"
 	}
 }
