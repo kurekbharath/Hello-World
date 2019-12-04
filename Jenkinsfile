@@ -4,7 +4,6 @@ pipeline {
     stages {
         stage ('Initialize') {
             steps {
-		checkout scm
                 bat '''
                     echo "PATH = ${PATH}"
                     echo "M2_HOME = ${M2_HOME}"	
