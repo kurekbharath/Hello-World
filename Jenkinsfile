@@ -19,7 +19,7 @@ pipeline {
 							def uploadSpec = """{
 								"files": [
 									{
-										"pattern": "pom.xml",
+										"pattern": "${WORKSPACE}/pom.xml",
 										"target": "example-repo-local/${env.BUILD_NUMBER}/",
 										"props": "build.number= ${env.BUILD_NUMBER}"
 									}
