@@ -19,7 +19,7 @@ pipeline {
 							def uploadSpec = """{
 								"files": [
 									{
-										"pattern": "${WORKSPACE}/my-app-1.0-SNAPSHOT.zip",
+										"pattern": "${WORKSPACE}/pom.xml",
 										"target": "example-repo-local/${env.BUILD_NUMBER}/",
 										"props": "build.number= ${env.BUILD_NUMBER}"
 									}
@@ -29,7 +29,11 @@ pipeline {
 						
 						buildInfo.number = "${env.BUILD_NUMBER}"
 						server.publishBuildInfo buildInfo 
+						
+					
+					
 					}
+					
 				
 					 catch (err) {
 						echo err.getMessage()
