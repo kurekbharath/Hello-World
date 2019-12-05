@@ -10,6 +10,7 @@ pipeline {
         }
 		stage ('upload') {
 			steps {
+				script {
 				echo 'publishing artifacts to jfrog'
 			
 				def VersionInputs = input message: "Please provide the  version to upload to JFROG",
@@ -34,6 +35,7 @@ pipeline {
 				buildInfo.name = "${Version}"
 				buildInfo.number = "${env.BUILD_NUMBER}"
 				server.publishBuildInfo buildInfo 
+			}
 			}
 		}
 	}
