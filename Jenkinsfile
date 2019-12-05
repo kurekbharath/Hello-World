@@ -21,7 +21,7 @@ pipeline {
 		
 				def server = Artifactory.server 'Artifactory'
 				rtUpload (
-					serverId: 'Artifactory',
+					serverId: 'JFROGID',
 					spec: '''{
 						  "files": [
 							{
