@@ -24,8 +24,8 @@ pipeline {
 					def uploadSpec = """{
 						"files": [
 							{
-								"pattern": "${WORKSPACE}\my-app-1.0-SNAPSHOT.zip",
-								"target": "example-repo-local\${Version}\",
+								"pattern": "${WORKSPACE}\\my-app-1.0-SNAPSHOT.zip",
+								"target": "example-repo-local\\${Version}\\",
 								"props": "build.name=${Version};build.number= ${env.BUILD_NUMBER}",
 								"flat": "true"
 							}
