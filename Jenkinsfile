@@ -16,24 +16,19 @@ pipeline {
 		
 				def server = Artifactory.server 'Artifactory'
 				server.credentialsId = 'JFROGID'
-				rtUpload (
-					
-					spec: '''{
-						  "files": [
+					def uploadSpec = """{
+						"files": [
 							{
-							  "pattern": "target/my-app-1.0-SNAPSHOT.jar",
-							  "target": "example-repo-local/${BUILD_NUMBER}/"
+								"pattern": "${WORKSPACE}/my-app-1.0-SNAPSHOT.zip",
+								"target": "example-repo-local/${env.BUILD_NUMBER}/",
+								"props": "build.number= ${env.BUILD_NUMBER}"
 							}
-						 ]
-					}''',
-				 
-					// Optional - Associate the uploaded files with the following custom build name and build number,
-					// as build artifacts.
-					// If not set, the files will be associated with the default build name and build number (i.e the
-					// the Jenkins job name and number).
-					buildName: 'holyFrog',
-					buildNumber: "${env.BUILD_NUMBER}"
-				)
+						]
+					}"""			
+				def buildInfo = server.upload spec: uploadSpec
+				
+				buildInfo.number = "${env.BUILD_NUMBER}"
+				server.publishBuildInfo buildInfo 
 			}
 			}
 		}
