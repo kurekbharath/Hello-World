@@ -13,7 +13,7 @@ pipeline {
 				script {
 				echo 'publishing artifacts to jfrog'
 				
-		
+		try{
 				def server = Artifactory.server 'Artifactory'
 				server.credentialsId = 'JFROGID'
 					def uploadSpec = """{
@@ -30,6 +30,11 @@ pipeline {
 				buildInfo.number = "${env.BUILD_NUMBER}"
 				server.publishBuildInfo buildInfo 
 			}
+			}
+			 catch (err) {
+            echo err.getMessage()
+            echo "Error detected, but we will continue."
+        }
 			}
 		}
 	}
