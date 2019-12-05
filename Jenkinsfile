@@ -12,12 +12,7 @@ pipeline {
 			steps {
 				script {
 				echo 'publishing artifacts to jfrog'
-				zip dir: "C://Program Files (x86)//Jenkins//workspace//Mavenproject//target//my-app-1.0-SNAPSHOT.jar", glob: '', zipFile: "${WORKSPACE}//my-app-1.0-SNAPSHOT.zip"
-				def VersionInputs = input message: "Please provide the  version to upload to JFROG",
-				parameters: [string(defaultValue: '', description: 'Pass the version convention ', name: 'Version', trim: true)]
-				env.Version	= VersionInputs
-			
-				echo "Upload version for : ${Version}"
+				
 		
 				def server = Artifactory.server 'Artifactory'
 				rtUpload (
@@ -25,8 +20,8 @@ pipeline {
 					spec: '''{
 						  "files": [
 							{
-							  "pattern": "target/*.jar",
-							  "target": "artifactory-build-info/${Version}/"
+							  "pattern": "target/my-app-1.0-SNAPSHOT.jar",
+							  "target": "example-repo-local/${BUILD_NUMBER}/"
 							}
 						 ]
 					}''',
