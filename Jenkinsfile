@@ -12,7 +12,7 @@ pipeline {
 			steps {
 				script {
 				echo 'publishing artifacts to jfrog'
-				zip dir: "${WORKSPACE}//target//my-app-1.0-SNAPSHOT.jar", glob: '', zipFile: "${WORKSPACE}//my-app-1.0-SNAPSHOT.zip"
+				zip dir: "C://Program Files (x86)//Jenkins//workspace//Mavenproject//target//my-app-1.0-SNAPSHOT.jar", glob: '', zipFile: "${WORKSPACE}//my-app-1.0-SNAPSHOT.zip"
 				def VersionInputs = input message: "Please provide the  version to upload to JFROG",
 				parameters: [string(defaultValue: '', description: 'Pass the version convention ', name: 'Version', trim: true)]
 				env.Version	= VersionInputs
@@ -24,7 +24,7 @@ pipeline {
 					def uploadSpec = """{
 						"files": [
 							{
-								"pattern": "${WORKSPACE}\\my-app-1.0-SNAPSHOT.zip",
+								"pattern": "C:\\Program Files (x86)\\Jenkins\\workspace\\Mavenproject\\my-app-1.0-SNAPSHOT.zip",
 								"target": "example-repo-local\\${Version}\\",
 								"props": "build.name=${Version};build.number= ${env.BUILD_NUMBER}",
 								"flat": "true"
