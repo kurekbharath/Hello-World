@@ -12,11 +12,11 @@ pipeline {
 	stage ('upload') {
 		echo 'publishing artifacts to jfrog'
 		
-		def VersionInputs = input message: "Please provide the ${ApplicationName} version to upload to JFROG",
+		def VersionInputs = input message: "Please provide the  version to upload to JFROG",
 			parameters: [string(defaultValue: '', description: 'Pass the version convention ', name: 'Version', trim: true)]
 			env.Version	= VersionInputs
 			
-		echo "Upload version for ${ApplicationName} ${Appspectask}: ${Version}"
+		echo "Upload version for : ${Version}"
 		
 		def server = Artifactory.server 'Artifactory'
 		server.credentialsId = 'JFROGID'
