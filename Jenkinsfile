@@ -19,9 +19,10 @@ pipeline {
 							def uploadSpec = """{
 								"files": [
 									{
-										"pattern": "target/README.md",
+										"pattern": "target/my-app-1.0-SNAPSHOT",
 										"target": "example-repo-local/${env.BUILD_NUMBER}/",
-										"props": "build.number= ${env.BUILD_NUMBER}"
+										"props": "build.number= ${env.BUILD_NUMBER}",
+										"flat":"true"
 									}
 								]
 							}"""			
