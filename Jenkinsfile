@@ -20,21 +20,24 @@ pipeline {
 				echo "Upload version for : ${Version}"
 		
 				def server = Artifactory.server 'Artifactory'
-				server.credentialsId = 'JFROGID'
-					def uploadSpec = """{
-						"files": [
+				rtUpload (
+					serverId: 'Artifactory',
+					spec: '''{
+						  "files": [
 							{
-								"pattern": "C:\\Program Files (x86)\\Jenkins\\workspace\\Mavenproject\\my-app-1.0-SNAPSHOT.zip",
-								"target": "example-repo-local\\${Version}\\",
-								"props": "build.name=${Version};build.number= ${env.BUILD_NUMBER}",
-								"flat": "true"
+							  "pattern": "target/*.jar",
+							  "target": "artifactory-build-info/${Version}/"
 							}
-						]
-					}"""			
-				def buildInfo = server.upload spec: uploadSpec
-				buildInfo.name = "${Version}"
-				buildInfo.number = "${env.BUILD_NUMBER}"
-				server.publishBuildInfo buildInfo 
+						 ]
+					}''',
+				 
+					// Optional - Associate the uploaded files with the following custom build name and build number,
+					// as build artifacts.
+					// If not set, the files will be associated with the default build name and build number (i.e the
+					// the Jenkins job name and number).
+					buildName: 'holyFrog',
+					buildNumber: "${env.BUILD_NUMBER}"
+				)
 			}
 			}
 		}
