@@ -26,9 +26,8 @@ pipeline {
 							{
 								"pattern": "${WORKSPACE}/target/my-app-1.0-SNAPSHOT.jar",
 								"target": "example-repo-local/${Version}/",
-								"props": "build.name=${Version};build.number= ${env.BUILD_NUMBER}",
-								"flat": "true"
-							}
+								"props": "build.name=${Version};build.number= ${env.BUILD_NUMBER}"
+							}target\my-app-1.0-SNAPSHOT.jar
 						]
 					}"""			
 				def buildInfo = server.upload spec: uploadSpec
