@@ -13,28 +13,29 @@ pipeline {
 				script {
 				echo 'publishing artifacts to jfrog'
 				
-		try{
-				def server = Artifactory.server 'Artifactory'
-				server.credentialsId = 'JFROGID'
-					def uploadSpec = """{
-						"files": [
-							{
-								"pattern": "${WORKSPACE}/my-app-1.0-SNAPSHOT.zip",
-								"target": "example-repo-local/${env.BUILD_NUMBER}/",
-								"props": "build.number= ${env.BUILD_NUMBER}"
-							}
-						]
-					}"""			
-				def buildInfo = server.upload spec: uploadSpec
+					try{
+						def server = Artifactory.server 'Artifactory'
+						server.credentialsId = 'JFROGID'
+							def uploadSpec = """{
+								"files": [
+									{
+										"pattern": "${WORKSPACE}/my-app-1.0-SNAPSHOT.zip",
+										"target": "example-repo-local/${env.BUILD_NUMBER}/",
+										"props": "build.number= ${env.BUILD_NUMBER}"
+									}
+								]
+							}"""			
+						def buildInfo = server.upload spec: uploadSpec
+						
+						buildInfo.number = "${env.BUILD_NUMBER}"
+						server.publishBuildInfo buildInfo 
+					}
 				
-				buildInfo.number = "${env.BUILD_NUMBER}"
-				server.publishBuildInfo buildInfo 
-			}
-			}
-			 catch (err) {
-            echo err.getMessage()
-            echo "Error detected, but we will continue."
-        }
+					 catch (err) {
+						echo err.getMessage()
+						echo "Error detected, but we will continue."
+					}
+				}
 			}
 		}
 	}
