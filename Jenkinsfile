@@ -19,7 +19,7 @@ pipeline {
 							def uploadSpec = """{
 								"files": [
 									{
-										"pattern": "target/my-app-1.0-SNAPSHOT.jar,
+										"pattern": "pom.xml",
 										"target": "example-repo-local/${env.BUILD_NUMBER}/",
 										"props": "build.number= ${env.BUILD_NUMBER}"
 									}
