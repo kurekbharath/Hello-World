@@ -24,10 +24,10 @@ pipeline {
 					def uploadSpec = """{
 						"files": [
 							{
-								"pattern": "${WORKSPACE}/target/my-app-1.0-SNAPSHOT.jar",
+								"pattern": "${WORKSPACE}/pom.xml",
 								"target": "example-repo-local/${Version}/",
 								"props": "build.name=${Version};build.number= ${env.BUILD_NUMBER}"
-							}target\my-app-1.0-SNAPSHOT.jar
+							}
 						]
 					}"""			
 				def buildInfo = server.upload spec: uploadSpec
