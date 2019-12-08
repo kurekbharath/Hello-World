@@ -30,18 +30,22 @@ pipeline {
 						
 						buildInfo.number = "${env.BUILD_NUMBER}"
 						server.publishBuildInfo buildInfo 
-						
-					
-					
 					}
-					
-				
-					 catch (err) {
+					catch (err) {
 						echo err.getMessage()
 						echo "Error detected, but we will continue."
 					}
 				}
 			}
 		}
+		stage ('Test case'){
+			steps {
+				script {
+					echo "Execurting the test cases of HELLO-WORLD"
+					bat 'D:\\apache-maven-3.6.3-bin\\apache-maven-3.6.3\\bin\\mvn test'
+				}
+			}
+		}
+		
 	}
 }
