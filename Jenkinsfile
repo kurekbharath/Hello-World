@@ -1,36 +1,47 @@
 pipeline {
-  environment {
-    registry = "bharathvasanthkumar/docker-test"
-    registryCredential = 'DockerID'
-    dockerImage = ''
-  }
-  agent any
-  stages {
-    stage('Cloning Git') {
-      steps {
-        git 'https://github.com/gustavoapolinario/microservices-node-example-todo-frontend.git'
-      }
-    }
-    stage('Building image') {
-      steps{
-        script {
-          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+    agent any
+   
+    stages {
+        stage ('Build') {
+            steps {
+                echo 'This is a minimal pipeline.'
+				bat 'D:\\apache-maven-3.6.3-bin\\apache-maven-3.6.3\\bin\\mvn package'
+			}
         }
-      }
-    }
-    stage('Deploy Image') {
-      steps{
-        script {
-          docker.withRegistry( '', registryCredential ) {
-            dockerImage.push()
-          }
-        }
-      }
-    }
-    stage('Remove Unused docker image') {
-      steps{
-        sh "docker rmi $registry:$BUILD_NUMBER"
-      }
-    }
-  }
+		stage ('upload') {
+			steps {
+				script {
+				echo 'publishing artifacts to jfrog'
+				
+					try{
+						def server = Artifactory.server 'Artifactory'
+						server.credentialsId = 'JFROGID'
+							def uploadSpec = """{
+								"files": [
+									{
+										"pattern": "target/my-app-1.0-SNAPSHOT.jar",
+										"target": "example-repo-local/${env.BUILD_NUMBER}/",
+										"props": "build.number= ${env.BUILD_NUMBER}",
+										"flat":"true"
+									}
+								]
+							}"""			
+						def buildInfo = server.upload spec: uploadSpec
+						
+						buildInfo.number = "${env.BUILD_NUMBER}"
+						server.publishBuildInfo buildInfo 
+						
+					
+					
+					}
+					
+				
+					 catch (err) {
+						echo err.getMessage()
+						echo "Error detected, but we will continue."
+					}
+				}
+			}
+		}
+	}
 }
