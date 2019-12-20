@@ -1,15 +1,13 @@
 pipeline {
-	agent any
-	stages {
-		stage('Build') {
-			steps {
-				script {
-					sh 'echo "tesing'
-					
-				}
+    agent any
+   
+    stages {
+        stage ('Build') {
+            steps {
+                echo 'This is a minimal pipeline.'
 			}
-		}
-		stage('Docker') {
+        }
+		stage ('upload') {
 			steps {
 				script {
 					myImage = docker.image("bclaster/jenkins-node:1.0")
